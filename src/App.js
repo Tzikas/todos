@@ -10,7 +10,11 @@ class Dashboard extends Component {
     }
 
     componentDidMount(){ //STEP 1 - lifecyle events & components 
-        console.log( ' this ',  this )
+        this.getTasks()        
+    }
+
+    getTasks = async () => { //STEP 4 - function appears in state         
+        let getData = await axios.get(`${serverURL}/api/tasks`)         
     }
 
     render() {
