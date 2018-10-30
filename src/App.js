@@ -4,7 +4,7 @@ import './App.css';
 import axios from 'axios'  
 import {serverURL} from './config'
 import Todos from './Todos.js'
-import { //STEP 10 - Import actions 
+import {  
   signUp,
   logIn,
   logOut,
@@ -20,10 +20,15 @@ import {
 
 
 class Dashboard extends Component {
-    state = {  
-        todos: []
+    state = {  //Add additional fields to this state
+        todos: [],
+        loggedIn: true,
+        status: { error:false, message:'' },
+        name: null,
+        pass: null,
+        user: {},
+        
     }
-
     componentDidMount(){  
         this.getTasks()        
     }
