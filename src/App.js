@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'  //STEP 3  
+import {serverURL} from './config'
 
 class Dashboard extends Component {
     state = {  //STEP 2 - state & stateful component 
