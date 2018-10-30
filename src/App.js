@@ -23,7 +23,6 @@ class Dashboard extends Component {
         return (
             <div className="App">
                 <h1>Todos</h1>                
-                {/*STEP 6 - passing state to props & importing components*/}
                 <Todos  
                     color="cornflowerblue"
                     todos={this.state.todos}
