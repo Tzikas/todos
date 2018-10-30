@@ -18,7 +18,9 @@ class Dashboard extends Component {
         let getData = await axios.get(`${serverURL}/api/tasks`)   
         this.setState({todos:getData.data})      
     }
-
+    deleteTask = async (id) => { //STEP 8 - Delete button 
+        let deleteData = await axios.post(`${serverURL}/api/tasks/delete/${id}`)   
+    }
     render() {
         return (
             <div className="App">
@@ -26,6 +28,7 @@ class Dashboard extends Component {
                 <Todos  
                     color="cornflowerblue"
                     todos={this.state.todos}
+                    deleteTask={this.deleteTask}                    
                 /> 
             </div>
         );

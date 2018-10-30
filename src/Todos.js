@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 
 const Todos = (props) => {   
 
-    let todos = props.todos.map(todo => (//STEP 7 - mapping through props 
-        <li key={todo._id}> {todo.description}</li>
+    let todos = props.todos.map(todo => (
+        <li key={todo._id}> 
+            {todo.description}
+            <button onClick={() => props.deleteTask(todo._id)}>Delete</button>
+        </li>
     )) 
 
     return (
