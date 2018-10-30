@@ -18,8 +18,10 @@ class Dashboard extends Component {
         let getData = await axios.get(`${serverURL}/api/tasks`)   
         this.setState({todos:getData.data})      
     }
-    deleteTask = async (id) => { //STEP 8 - Delete button 
+    deleteTask = async (id) => { 
         let deleteData = await axios.post(`${serverURL}/api/tasks/delete/${id}`)   
+        this.setState({todos: this.state.todos.filter(t => t._id !== id)}) //STEP 9 - filter state 
+        
     }
     render() {
         return (
