@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import Todo from './Todo'
-import './todo.css'; //Add css
+import './todo.css'; 
 
 
 class Todos extends Component { 
@@ -14,13 +14,14 @@ class Todos extends Component {
     }
     
     render() {
-        let todos = this.props.todos.map(todo => (
-            //Add another component for each individual Todo
+        let todos = this.props.todos.map(todo => (            
             <Todo 
                 key= {todo._id}
                 description = {todo.description}
                 title = {todo.title}
                 deleteTask = {this.props.deleteTask}
+                editTask={this.props.editTask} 
+                doneyet={todo.doneyet}                 
                 id= {todo._id}
             />
         )) 
@@ -41,7 +42,11 @@ class Todos extends Component {
                                 placeholder="Add a todo..."/>
                         </div>
                     </form>
-
+                    <br />
+                    <br />
+                    <p className="app-description">
+                        Double click to Edit.  
+                    </p>
                     <div className="todo-container" >
                         {todos}
                     </div>

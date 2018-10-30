@@ -39,15 +39,30 @@ class Dashboard extends Component {
         let getData = await axios.get(`${serverURL}/api/tasks`)   
         this.setState({todos:getData.data})      
     }
-    deleteTask = async (id) => { 
-        console.log('id',id)
-        let deleteData = await axios.post(`${serverURL}/api/tasks/delete/${id}`)   
-        this.setState({todos: this.state.todos.filter(t => t._id !== id)})         
+    deleteTask = async (task) => { 
+        console.log('id',task.id)
+        let deleteData = await axios.post(`${serverURL}/api/tasks/delete/${task.id}`)   
+        this.setState({todos: this.state.todos.filter(t => t._id !== task.id)})         
     }
     postTask = async (value) => {  
         value.doneyet = false;
         let todo = await postTask(value) 
         this.setState({ todos: [...this.state.todos, todo] }) 
+    }
+    editTask = async (newTask, val) => {        
+        let task = await editTask(newTask.id, {description:val, doneyet:newTask.doneyet})
+        const updatedTasks = this.state.todos.map((obj, index) => {
+           if( obj._id !== task._id ){
+            return obj 
+          } else {
+            obj.doneyet = newTask.doneyet
+            if(val){
+              obj.description = val;
+            }
+            return obj
+          }
+        });
+        this.setState({todos:updatedTasks})
     }
 
     logIn = async() => { 
@@ -81,10 +96,10 @@ class Dashboard extends Component {
                    <p id="user">Welcome {this.state.user.username} !</p>
                   <button id="logout" onClick={this.logOut}>LogOut</button>
                   <Todos  
-                        color="cornflowerblue"
                         todos={this.state.todos}
                         deleteTask={this.deleteTask}
-                        postTask={this.postTask}                         
+                        postTask={this.postTask}   
+                        editTask={this.editTask}                         
                     /> 
                   </span>
                 : <div>
