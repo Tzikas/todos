@@ -5,6 +5,8 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import axios from 'axios'  
 import {serverURL} from './config'
 import Todos from './Todos.js'
+import Loader from 'react-loader-spinner'
+
 import {  
   signUp,
   logIn,
@@ -28,11 +30,13 @@ class Dashboard extends Component {
         name: null,
         pass: null,
         user: {},
-        
+        loading: true //Loading set to true                 
     }
     componentDidMount(){  
         this.getTasks()
-        this.loggedIn()        
+        this.loggedIn()
+        setTimeout(() => this.setState({ loading: false }), 1500); //Just to see the loading icon
+        
     }
 
     getTasks = async () => {       
@@ -86,44 +90,49 @@ class Dashboard extends Component {
 
 
     render() {
-        return (
-            <div className="App">
-
-                <div className="App-content">
-                {this.state.status.error ? <p> { this.state.status.message }</p> : ''}
-                {this.state.loggedIn && !this.state.status.error ? 
-                  <span>
-                   <p id="user">Welcome {this.state.user.username} !</p>
-                  <button id="logout" onClick={this.logOut}>LogOut</button>
-                  <Todos  
-                        todos={this.state.todos}
-                        deleteTask={this.deleteTask}
-                        postTask={this.postTask}   
-                        editTask={this.editTask}                         
-                    /> 
-                  </span>
-                : <div>
-                    <p>Not logged in...</p>
-                    <div>
-                      <input 
-                        type="text"
-                        ref={user => this.name = user}                  
-                        onChange = {() =>  this.setState({name:this.name.value})}
-                        />
-                    </div>
-                    <div> 
-                        <input 
-                        type="password"                    
-                        ref={pass => this.pass = pass} 
-                        onChange = {() => this.setState({pass:this.pass.value})}/>                                
-                    </div>
-                    <button onClick ={this.logIn}>LogIn</button> 
-                    <button onClick ={this.signUp}>signUp</button>             
-                </div>
-                }
-              </div>
+       return (
+        <div className="App">
+            {this.state.loading ? 
+            <div className='sweet-loading'>
+              <Loader type="Plane" color="#00BFFF" height="100" width="100"/>         
             </div>
-        );    
+             : 
+          <div className="App-content">
+            {this.state.status.error ? <p> { this.state.status.message }</p> : ''}
+            {this.state.loggedIn && !this.state.status.error ? 
+              <span>
+              <p id="user">Welcome {this.state.user.username} !</p>
+              <button id="logout" onClick={this.logOut}>LogOut</button>
+              <Todos 
+                todos={this.state.todos}
+                postTask={this.postTask} 
+                editTask={this.editTask} 
+                deleteTask={this.deleteTask}                
+              />
+              </span>
+            : <div>
+                <p>Not logged in...</p>
+                <div>
+                  <input 
+                    type="text"
+                    ref={user => this.name = user}                  
+                    onChange = {() =>  this.setState({name:this.name.value})}
+                    />
+                </div>
+                <div>                  
+                  <input 
+                    type="password"                    
+                    ref={pass => this.pass = pass}
+                    onChange = {() => this.setState({pass:this.pass.value})}/>                                
+                </div>
+                  <button onClick ={this.logIn}>LogIn</button>
+                  <button onClick ={this.signUp}>signUp</button> 
+
+            </div> }
+          </div>
+          }
+        </div>
+       );
     }
 }
 
