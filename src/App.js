@@ -20,7 +20,7 @@ import {
 
 
 class Dashboard extends Component {
-    state = {  //Add additional fields to this state
+    state = {  
         todos: [],
         loggedIn: true,
         status: { error:false, message:'' },
@@ -44,14 +44,45 @@ class Dashboard extends Component {
     render() {
         return (
             <div className="App">
-                <h1>Todos</h1>                
-                <Todos  
-                    color="cornflowerblue"
-                    todos={this.state.todos}
-                    deleteTask={this.deleteTask}                    
-                /> 
+                <h1>Todos</h1>                                
+
+                <div className="App-content">
+                {/*Use the new fields in the state to conditonally show html*/}
+                {this.state.status.error ? <p> { this.state.status.message }</p> : ''}
+                {this.state.loggedIn && !this.state.status.error ? 
+                  <span>
+                   <p id="user">Welcome {this.state.user.username} !</p>
+                  <button id="logout" onClick={this.logOut}>LogOut</button>
+                  <Todos  
+                        color="cornflowerblue"
+                        todos={this.state.todos}
+                        deleteTask={this.deleteTask}
+                  />
+                  </span>
+                : <div>
+                    <p>Not logged in...</p>
+                    <div>
+                      <input 
+                        type="text"
+                        ref={user => this.name = user}                  
+                        onChange = {() =>  this.setState({name:this.name.value})}
+                        />
+                    </div>
+                    <div> 
+                        {/*Use ref and onChange events to chage state*/}
+                        <input 
+                        type="password"                    
+                        ref={pass => this.pass = pass} 
+                        onChange = {() => this.setState({pass:this.pass.value})}/>                                
+                    </div>
+                    {/*Use functions added to state*/}
+                    <button onClick ={this.logIn}>LogIn</button> 
+                    <button onClick ={this.signUp}>signUp</button>             
+                </div>
+                }
+              </div>
             </div>
-        );
+        );    
     }
 }
 
