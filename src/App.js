@@ -41,6 +41,27 @@ class Dashboard extends Component {
         let deleteData = await axios.post(`${serverURL}/api/tasks/delete/${id}`)   
         this.setState({todos: this.state.todos.filter(t => t._id !== id)})         
     }
+
+    logIn = async() => { //Add imported functions to state  
+      let result = await logIn({ username:this.state.name, password:this.state.pass })
+      result.error ? this.setState({status: result } ) :  this.setState({user: result, loggedIn:true, status:{ error:false, message:'' } })    
+    }
+
+    signUp = async() => {
+      let result = await signUp({ username:this.state.name, password:this.state.pass })
+      result.error ? this.setState({status: result } ) :  this.setState({user: result, loggedIn:true, status:{ error:false, message:'' } }) 
+    }
+
+    logOut = async() => {
+      await logOut()
+      this.setState({loggedIn:false, user:null, name:'', pass:'' })      
+    }
+    loggedIn = async() => {
+      let result = await loggedIn()
+      result.error ? this.setState({status: result } ) :  this.setState({user: result, loggedIn:true, status:{ error:false, message:'' } }) 
+    }
+
+
     render() {
         return (
             <div className="App">
