@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'  //STEP 3  
+import axios from 'axios'  
 import {serverURL} from './config'
 
 class Dashboard extends Component {
-    state = {  //STEP 2 - state & stateful component 
-          todos: []
+    state = {  
+        todos: []
     }
 
-    componentDidMount(){ //STEP 1 - lifecyle events & components 
+    componentDidMount(){  
         this.getTasks()        
     }
 
-    getTasks = async () => { //STEP 4 - function appears in state         
-        let getData = await axios.get(`${serverURL}/api/tasks`)         
+    getTasks = async () => {       
+        let getData = await axios.get(`${serverURL}/api/tasks`)   
+        this.setState({todos:getData.data}) //STEP 5 - setState        
     }
 
     render() {
