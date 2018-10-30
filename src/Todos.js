@@ -44,6 +44,9 @@ class Todos extends Component {
                     </form>
                     <br />
                     <br />
+                    {/* call myTasks here*/}
+                    <button onClick ={this.props.myTasks}>My Tasks</button> 
+                    <button onClick ={this.props.getTasks}>All Tasks</button> 
                     <p className="app-description">
                         Double click to Edit.  
                     </p>

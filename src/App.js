@@ -30,13 +30,16 @@ class Dashboard extends Component {
         name: null,
         pass: null,
         user: {},
-        loading: true //Loading set to true                 
+        loading: true                  
     }
     componentDidMount(){  
         this.getTasks()
         this.loggedIn()
-        setTimeout(() => this.setState({ loading: false }), 1500); //Just to see the loading icon
+        setTimeout(() => this.setState({ loading: false }), 1500); 
         
+    }
+    myTasks = async() => { //Used filter to filter my tasks from all tasks 
+        this.setState({todos: this.state.todos.filter(t => t.owner === this.state.user._id)})      
     }
 
     getTasks = async () => {       
@@ -108,6 +111,8 @@ class Dashboard extends Component {
                 postTask={this.postTask} 
                 editTask={this.editTask} 
                 deleteTask={this.deleteTask}                
+                myTasks={this.myTasks}  
+                getTasks={this.getTasks}
               />
               </span>
             : <div>
