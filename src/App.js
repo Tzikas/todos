@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import axios from 'axios'  
 import {serverURL} from './config'
 import Todos from './Todos.js'
@@ -39,13 +40,14 @@ class Dashboard extends Component {
         this.setState({todos:getData.data})      
     }
     deleteTask = async (id) => { 
+        console.log('id',id)
         let deleteData = await axios.post(`${serverURL}/api/tasks/delete/${id}`)   
         this.setState({todos: this.state.todos.filter(t => t._id !== id)})         
     }
-    postTask = async (value) => { //Add post action to component 
+    postTask = async (value) => {  
         value.doneyet = false;
         let todo = await postTask(value) 
-        this.setState({ todos: [...this.state.todos, todo] }) //Add new post to array of posts 
+        this.setState({ todos: [...this.state.todos, todo] }) 
     }
 
     logIn = async() => { 
@@ -71,7 +73,6 @@ class Dashboard extends Component {
     render() {
         return (
             <div className="App">
-                <h1>Todos</h1>                                
 
                 <div className="App-content">
                 {this.state.status.error ? <p> { this.state.status.message }</p> : ''}
@@ -84,7 +85,7 @@ class Dashboard extends Component {
                         todos={this.state.todos}
                         deleteTask={this.deleteTask}
                         postTask={this.postTask}                         
-                    /> {/*pass postTask as prop*/} 
+                    /> 
                   </span>
                 : <div>
                     <p>Not logged in...</p>
@@ -114,16 +115,3 @@ class Dashboard extends Component {
 export default Dashboard;
 
 
-
-
-
-Object.assign(window, { //Lets actions be called from console 
-  getTasks,
-  postTask,
-  logIn,
-  signUp,
-  logOut,
-  loggedIn,
-  deleteTask,
-  editTask,
-}); 

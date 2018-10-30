@@ -1,0 +1,49 @@
+.site-header {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 300;
+    font-size: 100px;
+    margin: 0 0 20px 0;
+    color: #6db3bf;
+}
+
+.input-title {
+    padding: 15px 25px 15px 25px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 300;
+    color: #707070;
+    border: 0;
+    outline: none;
+}
+
+.todo-container {
+}
+
+.app-description {
+    margin-top: -14px;
+    font-family: 'Quicksand', sans-serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #707070;
+}
+
+.app-description a {
+    text-decoration: none;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-style: italic;
+    color: #cccccc;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-style: italic;
+    color: #cccccc;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    font-style: italic;
+    color: #cccccc;
+}
+

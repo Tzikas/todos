@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-//import './todo.css';
 import axios from 'axios'
+import Todo from './Todo'
+import './todo.css'; //Add css
 
-//import TodoItem from './TodoItem';
 
-class Todos extends Component {
+class Todos extends Component { 
 
     handleSubmit = async (e) => {        
         e.preventDefault();
@@ -15,10 +15,14 @@ class Todos extends Component {
     
     render() {
         let todos = this.props.todos.map(todo => (
-            <li key={todo._id}> 
-                {todo.description}
-                <button onClick={() => this.props.deleteTask(todo._id)}>Delete</button>
-            </li>
+            //Add another component for each individual Todo
+            <Todo 
+                key= {todo._id}
+                description = {todo.description}
+                title = {todo.title}
+                deleteTask = {this.props.deleteTask}
+                id= {todo._id}
+            />
         )) 
 
         return (
@@ -38,9 +42,9 @@ class Todos extends Component {
                         </div>
                     </form>
 
-                    <ul style={{color:this.props.color}}>
+                    <div className="todo-container" >
                         {todos}
-                    </ul>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -51,28 +55,4 @@ class Todos extends Component {
 export default Todos;
 
 
-/*import React, { Component } from 'react';
 
-const Todos = (props) => {   
-
-    let todos = props.todos.map(todo => (
-        <li key={todo._id}> 
-            {todo.description}
-            <button onClick={() => props.deleteTask(todo._id)}>Delete</button>
-        </li>
-    )) 
-
-    return (
-        <div style={{color:props.color}}>            
-            <hr />
-            List: 
-            <ul>
-                {todos}
-            </ul>
-        </div>
-    )
-}
-
-
-export default Todos
-*/
