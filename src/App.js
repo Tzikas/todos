@@ -4,6 +4,20 @@ import './App.css';
 import axios from 'axios'  
 import {serverURL} from './config'
 import Todos from './Todos.js'
+import { //STEP 10 - Import actions 
+  signUp,
+  logIn,
+  logOut,
+  loggedIn
+} from './authActions'
+import { 
+  getTasks,
+  postTask,
+  deleteTask,
+  editTask
+} from './todoActions'
+
+
 
 class Dashboard extends Component {
     state = {  
@@ -20,8 +34,7 @@ class Dashboard extends Component {
     }
     deleteTask = async (id) => { 
         let deleteData = await axios.post(`${serverURL}/api/tasks/delete/${id}`)   
-        this.setState({todos: this.state.todos.filter(t => t._id !== id)}) //STEP 9 - filter state 
-        
+        this.setState({todos: this.state.todos.filter(t => t._id !== id)})         
     }
     render() {
         return (
@@ -38,3 +51,18 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
+
+
+
+
+
+Object.assign(window, { //Lets actions be called from console 
+  getTasks,
+  postTask,
+  logIn,
+  signUp,
+  logOut,
+  loggedIn,
+  deleteTask,
+  editTask,
+}); 
