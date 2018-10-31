@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import './todoItem.css'; 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
 
-class Todo extends Component { //Converted to stateful component
-    
+
+class Todo extends Component {     
     state = {
-        isEdit: false
+        isEdit: false,
+        details: '',
+        showDetails: false 
     }
 
 
-    edit = async (e) => { //toggle editing        
+    edit = async (e) => {        
         this.setState({
             isEdit: !this.state.isEdit
         })
     }
-    handleCheck = (e) => {//toggle check 
+    handleCheck = (e) => { 
         this.props.editTask({id: this.props.id, doneyet : !this.props.doneyet} )
     }
 
@@ -22,12 +25,18 @@ class Todo extends Component { //Converted to stateful component
     }
     handleEdit = (e) => {
         let val = this.input.value
-        this.props.editTask(this.props, val) //saves new edit 
+        this.props.editTask(this.props, val)  
         this.setState({
             isEdit: !this.state.isEdit
         })
     }
-
+    showDetails = () => { //Add action to show description. 
+        this.setState({
+            details:this.props.description,
+            showDetails:!this.state.showDetails
+        })
+        
+    }
     renderTitle = () => {
         return this.state.isEdit
             ?   <input
@@ -41,7 +50,7 @@ class Todo extends Component { //Converted to stateful component
             :   <p 
                     className={this.props.doneyet ? "title-crossed" : "title"}
                     onDoubleClick={this.props.doneyet ? null : this.edit}>
-                        {this.props.description}
+                        {this.props.title}
                 </p>
     }
 
@@ -53,6 +62,7 @@ class Todo extends Component { //Converted to stateful component
 
     render() {
         return (
+            <div>
             <div className="item-container">
                 <div className="completed-check-box" onClick={this.handleCheck}>
                     {this.renderCheckIcon()}
@@ -63,7 +73,13 @@ class Todo extends Component { //Converted to stateful component
                 <div className="delete-btn" onClick={this.handleDelete}>
                     <i className="fas fa-times delete-icon"></i>
                 </div>
+                 <div className="details-btn" onClick={this.showDetails}>
+                    <i className="fas fa-ellipsis-v description-icon"></i>
+                </div>
             </div>
+            <div className={"details " + (this.state.showDetails ? 'show' : 'hidden')}>{this.state.details}</div>
+            </div>
+
         )
     }
 }

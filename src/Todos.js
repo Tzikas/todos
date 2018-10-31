@@ -2,15 +2,23 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import Todo from './Todo'
 import './todo.css'; 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
+
 
 
 class Todos extends Component { 
 
     handleSubmit = async (e) => {        
         e.preventDefault();
-        let value = this.input.value;
-        this.props.postTask({description:value})
-        this.input.value = ''     
+        let title = this.title.value;
+        let description = this.description.value; //Edit input fields 
+        this.props.postTask({
+            description,
+            title
+        })
+        this.title.value = ''     
+        this.description.value = ''     
+        
     }
     
     render() {
@@ -38,20 +46,32 @@ class Todos extends Component {
                                 className="input-title"
                                 type="text"
                                 autoComplete="off"
-                                ref={input => {this.input = input}}
+                                ref={input => {this.title = input}}
                                 placeholder="Add a todo..."/>
+                            {/* add input field */} 
+                            <input 
+                                id="input-description"
+                                className="input-description"
+                                type="textarea"
+                                ref={input => {this.description = input}}
+                                placeholder="Add a description..."/>                                                        <input className="btn" id="submit" type="submit" value="submit"/>
                         </div>
                     </form>
                     <br />
                     <br />
-                    {/* call myTasks here*/}
                     <button onClick ={this.props.myTasks}>My Tasks</button> 
                     <button onClick ={this.props.getTasks}>All Tasks</button> 
                     <p className="app-description">
                         Double click to Edit.  
                     </p>
                     <div className="todo-container" >
-                        {todos}
+                        <ReactCSSTransitionGroup 
+                            transitionName="example"
+                            transitionEnterTimeout={500}
+                            transitionLeaveTimeout={300}>
+                            {todos}
+                        </ReactCSSTransitionGroup>
+          
                     </div>
                     </div>
                 </div>

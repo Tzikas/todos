@@ -34,17 +34,15 @@ class Dashboard extends Component {
     }
     componentDidMount(){  
         this.getTasks()
-        this.loggedIn()
-        setTimeout(() => this.setState({ loading: false }), 1500); 
-        
+        this.loggedIn()        
     }
-    myTasks = async() => { //Used filter to filter my tasks from all tasks 
+    myTasks = async() => { 
         this.setState({todos: this.state.todos.filter(t => t.owner === this.state.user._id)})      
     }
 
     getTasks = async () => {       
         let getData = await axios.get(`${serverURL}/api/tasks`)   
-        this.setState({todos:getData.data})      
+        this.setState({todos:getData.data.reverse(), loading:false})  
     }
     deleteTask = async (task) => { 
         console.log('id',task.id)
@@ -54,7 +52,7 @@ class Dashboard extends Component {
     postTask = async (value) => {  
         value.doneyet = false;
         let todo = await postTask(value) 
-        this.setState({ todos: [...this.state.todos, todo] }) 
+        this.setState({ todos: [...this.state.todos, todo].reverse() }) 
     }
     editTask = async (newTask, val) => {        
         let task = await editTask(newTask.id, {description:val, doneyet:newTask.doneyet})
