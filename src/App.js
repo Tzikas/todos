@@ -54,15 +54,23 @@ class Dashboard extends Component {
         let todo = await postTask(value) 
         this.setState({ todos: [...this.state.todos, todo].reverse() }) 
     }
-    editTask = async (newTask, val) => {        
-        let task = await editTask(newTask.id, {description:val, doneyet:newTask.doneyet})
+    editTask = async (newTask, val, kind) => { 
+        console.log( ' val ',  val, kind )
+        let obj = {}
+        if(val){
+           obj = { description:val.description, title:val.title,doneyet:newTask.doneyet}
+        } else {
+            obj = {doneyet:newTask.doneyet} 
+        }
+        let task = await editTask(newTask.id, obj )
         const updatedTasks = this.state.todos.map((obj, index) => {
            if( obj._id !== task._id ){
             return obj 
           } else {
             obj.doneyet = newTask.doneyet
             if(val){
-              obj.description = val;
+              obj.description = val.description;
+              obj.title = val.title;                
             }
             return obj
           }

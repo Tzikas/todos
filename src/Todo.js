@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './todoItem.css'; 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
-
+import { Link } from "react-router-dom";
 
 class Todo extends Component {     
     state = {
@@ -17,15 +17,18 @@ class Todo extends Component {
         })
     }
     handleCheck = (e) => { 
-        this.props.editTask({id: this.props.id, doneyet : !this.props.doneyet} )
+        this.props.editTask({id: this.props.id, doneyet : !this.props.doneyet } )
     }
 
     handleDelete = (e) => {
         this.props.deleteTask(this.props)
     }
     handleEdit = (e) => {
-        let val = this.input.value
-        this.props.editTask(this.props, val)  
+        console.log(e,this)
+        let title = this.input.value
+        let description = this.description.value;
+     console.log( ' description val ',  { title, description } )
+        this.props.editTask(this.props, { title, description } )  
         this.setState({
             isEdit: !this.state.isEdit
         })
@@ -44,13 +47,26 @@ class Todo extends Component {
                     className="edit-title"
                     type="text"
                     defaultValue={this.props.title}
-                    onBlur={this.handleEdit}
                     autoFocus
                 />
+            
             :   <p 
                     className={this.props.doneyet ? "title-crossed" : "title"}
                     onDoubleClick={this.props.doneyet ? null : this.edit}>
                         {this.props.title}
+                </p>
+    }
+    renderDescription = () => {
+        return this.state.isEdit
+            ?   <p><input
+                    ref={input => this.description = input}
+                    className="edit-description"
+                    type="text"
+                    defaultValue={this.props.description}
+                /></p>
+            :   <p 
+                onDoubleClick={this.props.doneyet ? null : () => this.edit}>                        
+                        {this.props.description}
                 </p>
     }
 
@@ -76,8 +92,23 @@ class Todo extends Component {
                  <div className="details-btn" onClick={this.showDetails}>
                     <i className="fas fa-ellipsis-v description-icon"></i>
                 </div>
+
             </div>
-            <div className={"details " + (this.state.showDetails ? 'show' : 'hidden')}>{this.state.details}</div>
+            <div className={"details " + (this.state.showDetails ? 'show' : 'hidden')}>
+                
+                { this.state.isEdit ? 
+                <div className="save-btn" onClick={this.handleEdit}>
+                    <i className="fas fa-save description-icon"></i>
+                </div>
+                :
+                <div className="save-btn" onClick={this.edit}>
+                    <i className="fas fa-edit description-icon"></i>
+                </div>
+                }
+                {this.renderDescription()}
+                
+                <Link to={{ pathname: `/details/${this.props.id}`, state: { description: this.props.description, title: this.props.title, id:this.props.id } }}> ...more </Link>            
+            </div>
             </div>
 
         )
@@ -86,4 +117,5 @@ class Todo extends Component {
 
 export default Todo;
 
-
+                    {/*onBlur={this.handleEdit}*/}
+// <Link to={{ pathname: `/cluster/${item._id}`, name:item.name }}>{item.name}</Link>
